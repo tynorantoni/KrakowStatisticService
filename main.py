@@ -8,7 +8,7 @@ def get_json_from_api():
     yesterday = datetime.today() - datetime.timedelta(days=1)
     insert_all_data(yesterday,yesterday)
 
-
+#git test
 
 
 if __name__ == '__main__':
