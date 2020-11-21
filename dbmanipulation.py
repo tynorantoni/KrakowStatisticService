@@ -8,7 +8,7 @@ def create_table():
         conn = connect_to_db()
         cur = conn.cursor()
 
-        cur.execute('''CREATE TABLE brussels_data
+        cur.execute('''CREATE TABLE krakow_data
         (id SERIAL PRIMARY KEY NOT NULL,
         date_of_count DATE,
         street_name TEXT,
@@ -29,7 +29,7 @@ def drop_table():
         conn = connect_to_db()
         cur = conn.cursor()
 
-        cur.execute('''DROP TABLE brussels_data;''')
+        cur.execute('''DROP TABLE krakow_data;''')
         conn.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
@@ -44,7 +44,7 @@ def insert_to_db(date_of_counting, street_name, total_cyclists):
         conn = connect_to_db()
         cur = conn.cursor()
 
-        cur.execute('''INSERT INTO brussels_data 
+        cur.execute('''INSERT INTO krakow_data 
         (date_of_count, street_name, day_cnt) VALUES 
         ({},{},{});'''.format(date_of_counting, street_name, total_cyclists)
                     )
