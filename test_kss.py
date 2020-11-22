@@ -3,6 +3,7 @@ import datetime
 import psycopg2
 import pytest
 
+import main
 import pingpong
 from dbconnector import connect_to_db
 
@@ -77,18 +78,18 @@ class TestClass:
             cur.execute('SELECT * FROM krakow_data_test_table;')
 
 
-    @pytest.fixture()
-    def setUpFlask(self):
-        pingpong.app.testing = True
-
-        with pingpong.app.test_client() as client:
-            with pingpong.app.app_context():
-                pingpong.start()
-            yield client
-
-    def test_pong(self,setUpFlask):
-        value = setUpFlask.get('/ping')
-        assert '200' in str(value)
+    # @pytest.fixture()
+    # def setUpFlask(self):
+    #     main.app.testing = True
+    #
+    #     with main.app.test_client() as client:
+    #         with main.app.app_context():
+    #             main.start()
+    #         yield client
+    #
+    # def test_pong(self,setUpFlask):
+    #     value = setUpFlask.get('/ping')
+    #     assert '200' in str(value)
 
 
 

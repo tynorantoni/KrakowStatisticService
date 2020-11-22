@@ -1,6 +1,9 @@
+import datetime
 import re
 
 from selenium import webdriver
+
+from dbmanipulation import insert_to_db
 
 driver = webdriver.Chrome('./chr/chromedriver.exe')
 
@@ -37,11 +40,13 @@ def dict_of_streets_with_counters_urls(list_of_counters,list_of_street_names):
     return streets_with_counters
 
 def get_values_from_counters(dict_of_counters):
+    todays_the_day = datetime.today()
     for count in dict_of_counters:
         driver.get(dict_of_counters[count])
         elem = driver.find_element_by_id('corps')
+        insert_to_db(todays_the_day,count,elem.text)
         print(count,' ',elem.text)
-    driver.quit()
+    # driver.quit()
 
 
 

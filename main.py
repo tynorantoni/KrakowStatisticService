@@ -2,25 +2,26 @@ from flask import Flask
 from flask_apscheduler import APScheduler
 from flask_restful import Api
 
+from mobilekrakowcrawler import *
 from pingpong import PingPong
 
 
 class Config(object):
     JOBS = [
         {
-            'id': 'job1',
-            'func': 'main:job1',
-            'args': (1, 2),
+            'id': 'crawl_krakow_data',
+            'func': 'main:crawl_krakow_data',
             'trigger': 'interval',
-            'seconds': 10
+            'seconds': 86400
         }
     ]
 
     SCHEDULER_API_ENABLED = True
 
 
-def job1(a, b):
-    print(str(a) + ' ' + str(b))
+def crawl_krakow_data():
+    get_values_from_counters(dict_of_streets_with_counters_urls(get_counters_urls(),get_street_names()))
+
 
 if __name__ == '__main__':
     app = Flask(__name__)
