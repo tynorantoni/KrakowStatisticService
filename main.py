@@ -20,8 +20,8 @@ class Config(object):
 
 
 def crawl_krakow_data():
-    get_values_from_counters(dict_of_streets_with_counters_urls(get_counters_urls(),get_street_names()))
-
+    # get_values_from_counters(dict_of_streets_with_counters_urls(get_counters_urls(),get_street_names()))
+    print(666)
 
 if __name__ == '__main__':
     app = Flask(__name__)
