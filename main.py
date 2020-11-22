@@ -1,5 +1,8 @@
 from flask import Flask
 from flask_apscheduler import APScheduler
+from flask_restful import Api
+
+from pingpong import PingPong
 
 
 class Config(object):
@@ -22,7 +25,8 @@ def job1(a, b):
 if __name__ == '__main__':
     app = Flask(__name__)
     app.config.from_object(Config())
-
+    api = Api(app)
+    api.add_resource(PingPong, '/ping')
     scheduler = APScheduler()
     # it is also possible to enable the API directly
     # scheduler.api_enabled = True
@@ -31,25 +35,3 @@ if __name__ == '__main__':
 
     app.run()
 
-# from pingpong import start
-#
-# from timeloop import Timeloop
-# from datetime import timedelta
-# import datetime
-#
-# tl = Timeloop()
-#
-# @tl.job(interval=timedelta(seconds=10))
-# def print_jello():
-#     print('hello ',datetime.datetime.now())
-#
-#
-#
-#
-# if __name__ == '__main__':
-#
-#
-#     tl.start(block=True)
-#     start()
-#
-#
