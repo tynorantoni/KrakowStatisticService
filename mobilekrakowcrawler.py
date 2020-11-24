@@ -75,3 +75,4 @@ def get_values_from_counters(dict_of_counters):
         insert_to_db(todays_the_day, count, elem.text)
         print(count, ' ', elem.text)
     # driver.quit()
+

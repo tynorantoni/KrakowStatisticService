@@ -3,6 +3,8 @@ import re
 
 import psycopg2
 import pytest
+from selenium.webdriver.chrome.options import Options
+
 from archivedata import prepare_dataframe
 from dbconnector import connect_to_db
 from selenium import webdriver
@@ -92,7 +94,14 @@ class TestClass:
         assert "Strzelców" not in data_columns
 
     def test_get_counters_urls(self):
-        driver = webdriver.Chrome(options=set_chrome_options())
+        chrome_options = Options()
+        chrome_options.add_argument("--headless")
+        chrome_options.add_argument("--no-sandbox")
+        chrome_options.add_argument("--disable-dev-shm-usage")
+        chrome_prefs = {}
+        chrome_options.experimental_options["prefs"] = chrome_prefs
+        chrome_prefs["profile.default_content_settings"] = {"images": 2}
+        driver = webdriver.Chrome(options=chrome_options)
         driver.get("http://mobilnykrakow.pl/rowery/")
         counters = []
         page_source = driver.page_source
@@ -134,7 +143,7 @@ class TestClass:
         print(url_check)
         assert streets_with_counters['WIELICKA-YEAR'] == url_check
 
-    def test_get_values_from_counters(self):
+    def test_get_values_from_counters(self,chrome_options: Options):
         driver = webdriver.Chrome(options=set_chrome_options())
         dict_of_counters = dict_of_streets_with_counters_urls(
             get_counters_urls(),
