@@ -117,7 +117,7 @@ class TestClass:
         assert len(counters) >= 1
 
     def test_get_street_names(self):
-        driver = webdriver.Chrome(options=set_chrome_options())
+        driver = webdriver.Chrome('/usr/local/bin/chromedriver')
         data_columns = prepare_dataframe().columns
         driver.get("http://mobilnykrakow.pl/rowery/")
         driver.implicitly_wait(5)
@@ -145,7 +145,7 @@ class TestClass:
         assert streets_with_counters['WIELICKA-YEAR'] == url_check
 
     def test_get_values_from_counters(self):
-        driver = webdriver.Chrome()
+        driver = webdriver.Chrome('/usr/local/bin/chromedriver.exe')
         dict_of_counters = dict_of_streets_with_counters_urls(
             get_counters_urls(),
             get_street_names()
