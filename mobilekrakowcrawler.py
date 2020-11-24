@@ -33,7 +33,7 @@ def set_chrome_options() -> None:
 
 
 def get_counters_urls():
-    driver = webdriver.Chrome(options=set_chrome_options())
+    driver = webdriver.Chrome(chrome_options=set_chrome_options())
     driver.get("http://mobilnykrakow.pl/rowery/")
     counters = []
     page_source = driver.page_source
