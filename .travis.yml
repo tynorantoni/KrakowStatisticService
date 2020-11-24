@@ -7,8 +7,9 @@ services:
 
 script:
   - pytest
-  -
+
 before_install:
+  - chmod +x ./scripts/ecr_credentials.sh
   - ./scripts/ecr_credentials.sh
 
 after_success:
