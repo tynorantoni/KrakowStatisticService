@@ -3,7 +3,7 @@ import datetime
 import psycopg2
 import pytest
 
-import main
+import app
 import pingpong
 from dbconnector import connect_to_db
 
