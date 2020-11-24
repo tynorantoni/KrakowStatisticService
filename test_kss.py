@@ -1,4 +1,5 @@
 import datetime
+import os
 import re
 
 import psycopg2
@@ -94,7 +95,14 @@ class TestClass:
         assert "Strzelców" not in data_columns
 
     def test_get_counters_urls(self):
-        driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
+        chrome_options = webdriver.ChromeOptions()
+        chrome_options.add_argument('--no-sandbox')
+
+        chrome_options.add_experimental_option('prefs', {
+            'download.default_directory': os.getcwd(),
+            'download.prompt_for_download': False,
+        })
+        driver = webdriver.Chrome(chrome_options=chrome_options)
         driver.get("http://mobilnykrakow.pl/rowery/")
         counters = []
         page_source = driver.page_source
