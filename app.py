@@ -1,8 +1,6 @@
 from flask import Flask
 from flask_apscheduler import APScheduler
 from flask_restful import Api
-
-from mobilekrakowcrawler import *
 from pingpong import PingPong
 
 
@@ -20,10 +18,8 @@ class Config(object):
 
 
 def crawl_krakow_data():
-    selTest()
     # get_values_from_counters(dict_of_streets_with_counters_urls(get_counters_urls(),get_street_names()))
-    print(666)
-
+    pass
 
 
 

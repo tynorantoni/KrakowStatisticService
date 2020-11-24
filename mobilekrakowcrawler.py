@@ -5,16 +5,16 @@ from selenium import webdriver
 
 from dbmanipulation import insert_to_db
 
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument('--no-sandbox')
+# chrome_options.add_argument('--window-size=1420,1080')
+# chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--disable-gpu')
+# driver = webdriver.Chrome(chrome_options=chrome_options)
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--window-size=1420,1080')
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-driver = webdriver.Chrome(chrome_options=chrome_options)
-# driver = webdriver.Chrome('./chr/chromedriver.exe')
-def selTest():
-    driver.get('www.google.com')
+
+driver = webdriver.Chrome('./chr/chromedriver.exe')
+
 
 def get_counters_urls():
     driver.get("http://mobilnykrakow.pl/rowery/")
@@ -38,28 +38,21 @@ def get_street_names():
     return streets
 
 
-def dict_of_streets_with_counters_urls(list_of_counters,list_of_street_names):
+def dict_of_streets_with_counters_urls(list_of_counters, list_of_street_names):
     streets_with_counters = {}
-    j=0
-    for i in range(int(len(list_of_counters)/2)):
-        streets_with_counters['{}-YEAR'.format(list_of_street_names[i].text)]=list_of_counters[j]
-        streets_with_counters['{}-DAILY'.format(list_of_street_names[i].text)]=list_of_counters[j+1]
-        j+=2
+    j = 0
+    for i in range(int(len(list_of_counters) / 2)):
+        streets_with_counters['{}-YEAR'.format(list_of_street_names[i].text)] = list_of_counters[j]
+        streets_with_counters['{}-DAILY'.format(list_of_street_names[i].text)] = list_of_counters[j + 1]
+        j += 2
     return streets_with_counters
+
 
 def get_values_from_counters(dict_of_counters):
     todays_the_day = datetime.today()
     for count in dict_of_counters:
         driver.get(dict_of_counters[count])
         elem = driver.find_element_by_id('corps')
-        insert_to_db(todays_the_day,count,elem.text)
-        print(count,' ',elem.text)
+        insert_to_db(todays_the_day, count, elem.text)
+        print(count, ' ', elem.text)
     # driver.quit()
-
-
-
-
-
-
-
-
