@@ -144,8 +144,8 @@ class TestClass:
         print(url_check)
         assert streets_with_counters['WIELICKA-YEAR'] == url_check
 
-    def test_get_values_from_counters(self,chrome_options: Options):
-        driver = webdriver.Chrome(options=set_chrome_options())
+    def test_get_values_from_counters(self):
+        driver = webdriver.Chrome()
         dict_of_counters = dict_of_streets_with_counters_urls(
             get_counters_urls(),
             get_street_names()
