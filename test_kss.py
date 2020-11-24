@@ -4,14 +4,11 @@ import re
 
 import psycopg2
 import pytest
-from selenium.webdriver.chrome.options import Options
+
 
 from archivedata import prepare_dataframe
 from dbconnector import connect_to_db
 from selenium import webdriver
-
-from mobilekrakowcrawler import get_street_names, get_counters_urls, dict_of_streets_with_counters_urls, \
-    set_chrome_options
 
 
 # chrome_options = webdriver.ChromeOptions()
