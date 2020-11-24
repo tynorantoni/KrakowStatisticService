@@ -94,7 +94,7 @@ class TestClass:
         assert "Strzelców" not in data_columns
 
     def test_get_counters_urls(self):
-        driver = webdriver.Chrome(chrome_options=set_chrome_options())
+        driver = webdriver.Chrome(executable_path='/usr/local/bin/chromedriver')
         driver.get("http://mobilnykrakow.pl/rowery/")
         counters = []
         page_source = driver.page_source
