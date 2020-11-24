@@ -7,6 +7,9 @@ services:
 
 script:
   - pytest
+  -
+before_install:
+  - ./scripts/ecr_credentials.sh
 
 after_success:
   - docker --version  # document the version travis is using
