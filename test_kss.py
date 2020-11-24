@@ -7,14 +7,16 @@ from archivedata import prepare_dataframe
 from dbconnector import connect_to_db
 from selenium import webdriver
 
-from mobilekrakowcrawler import get_street_names, get_counters_urls, dict_of_streets_with_counters_urls
+from mobilekrakowcrawler import get_street_names, get_counters_urls, dict_of_streets_with_counters_urls, \
+    set_chrome_options
 
-chrome_options = webdriver.ChromeOptions()
-chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--window-size=1420,1080')
-chrome_options.add_argument('--headless')
-chrome_options.add_argument('--disable-gpu')
-driver = webdriver.Chrome(chrome_options=chrome_options)
+
+# chrome_options = webdriver.ChromeOptions()
+# chrome_options.add_argument('--no-sandbox')
+# chrome_options.add_argument('--window-size=1420,1080')
+# chrome_options.add_argument('--headless')
+# chrome_options.add_argument('--disable-gpu')
+# driver = webdriver.Chrome(chrome_options=chrome_options)
 
 
 
@@ -90,7 +92,7 @@ class TestClass:
         assert "Strzelców" not in data_columns
 
     def test_get_counters_urls(self):
-
+        driver = webdriver.Chrome(options=set_chrome_options())
         driver.get("http://mobilnykrakow.pl/rowery/")
         counters = []
         page_source = driver.page_source
@@ -105,6 +107,7 @@ class TestClass:
         assert len(counters) >= 1
 
     def test_get_street_names(self):
+        driver = webdriver.Chrome(options=set_chrome_options())
         data_columns = prepare_dataframe().columns
         driver.get("http://mobilnykrakow.pl/rowery/")
         driver.implicitly_wait(5)
@@ -132,6 +135,7 @@ class TestClass:
         assert streets_with_counters['WIELICKA-YEAR'] == url_check
 
     def test_get_values_from_counters(self):
+        driver = webdriver.Chrome(options=set_chrome_options())
         dict_of_counters = dict_of_streets_with_counters_urls(
             get_counters_urls(),
             get_street_names()
