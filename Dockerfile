@@ -20,6 +20,19 @@ RUN apt-get install -y google-chrome-stable
 RUN apk --no-cache --update-cache add gcc gfortran build-base wget freetype-dev libpng-dev openblas-dev postgresql-dev
 RUN pip install -U pip
 
+# Installing Unzip
+RUN apt-get install -yqq unzip
+
+# Download the Chrome Driver
+RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`
+curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE
+`/chromedriver_linux64.zip
+
+# Unzip the Chrome Driver into /usr/local/bin directory
+RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
+
+# Set display port as an environment variable
+ENV DISPLAY=:99
 
 RUN mkdir /app
 WORKDIR /app
