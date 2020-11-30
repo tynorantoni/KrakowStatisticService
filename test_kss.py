@@ -5,7 +5,6 @@ import re
 import psycopg2
 import pytest
 
-
 from archivedata import prepare_dataframe
 from dbconnector import connect_to_db
 from selenium import webdriver
@@ -19,22 +18,23 @@ from selenium import webdriver
 # driver = webdriver.Chrome(chrome_options=chrome_options)
 
 
-
 class TestClass:
 
+    # setUp DB Instance
     @pytest.fixture()
     def setUp(self):
         connection = connect_to_db()
         yield connection
         connection.close()
 
-    def test_connect_to_db(self, setUp):
 
+    def test_connect_to_db(self, setUp):
         cur = setUp.cursor()
         cur.execute('SELECT version()')
         db_version = cur.fetchone()
         assert db_version is not None
 
+    #creating test table in DB
     def test_create_table(self, setUp):
         try:
             cur = setUp.cursor()
@@ -43,12 +43,11 @@ class TestClass:
             (id SERIAL PRIMARY KEY NOT NULL,
             date_of_count DATE,
             street_name TEXT,
-            day_cnt VarChar(10));'''
-                        )
+            day_cnt VarChar(10));''')
 
             setUp.commit()
-            query = cur.execute('SELECT * FROM krakow_data_test_table;')
-            assert query == 'None'
+            cur.execute('SELECT * FROM krakow_data_test_table;')
+            assert cur.fetchone() == 'None'
 
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -56,6 +55,7 @@ class TestClass:
         finally:
             cur.close()
 
+    #check Inserting
     def test_insert_to_db(self, setUp):
         date = datetime.date(2019, 12, 24)
         try:
@@ -63,13 +63,13 @@ class TestClass:
 
             cur.execute('''INSERT INTO krakow_data_test_table
             (date_of_count, street_name, day_cnt) VALUES 
-            ({},{},{});'''.format(date, "'test_street'", 666)
+            ('{}','{}',{});'''.format(date, 'test_street', 666)
                         )
 
             setUp.commit()
 
-            query = cur.execute('SELECT day_cnt FROM krakow_data_test_table;')
-            assert query == 666
+            cur.execute('SELECT day_cnt FROM krakow_data_test_table;')
+            assert cur.fetchone() == 666
 
         except (Exception, psycopg2.DatabaseError) as error:
             print(error)
@@ -77,19 +77,25 @@ class TestClass:
         finally:
             cur.close()
 
+    #drop test table after tests
     def test_drop_table(self, setUp):
-        with pytest.raises(psycopg2.DatabaseError):
+        try:
             cur = setUp.cursor()
 
             cur.execute('''DROP TABLE krakow_data_test_table;''')
-            setUp.commit()
-            cur.execute('SELECT * FROM krakow_data_test_table;')
+            # setUp.commit()
+            assert cur.statusmessage == 'DROP TABLE'
+        except psycopg2.DatabaseError as error:
+            print(error)
 
+    #validate proper column names in dataframe
     def test_prepare_dataframe(self):
         data_columns = prepare_dataframe().columns
         assert "wielicka" in data_columns
         assert "dworzec główny" in data_columns
         assert "Strzelców" not in data_columns
+
+#due to selenium, docker and travis problems testing is currently not available
 
     # def test_get_counters_urls(self):
     #     chrome_options = webdriver.ChromeOptions()

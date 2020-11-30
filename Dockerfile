@@ -20,11 +20,8 @@ RUN pip install -U pip
 #RUN wget -O /tmp/chromedriver.zip http://chromedriver.storage.googleapis.com/`curl -sS chromedriver.storage.googleapis.com/LATEST_RELEASE`/chromedriver_linux64.zip
 #RUN unzip /tmp/chromedriver.zip chromedriver -d /usr/local/bin/
 
-# set display port to avoid crash
+# set display port for selenium
 ENV DISPLAY=:99
-
-
-
 
 RUN mkdir /app
 WORKDIR /app
