@@ -9,10 +9,10 @@ from dbmanipulation import insert_to_db
 #chrome webdriver options set to work online
 chrome_options = webdriver.ChromeOptions()
 chrome_options.add_argument('--no-sandbox')
-chrome_options.add_argument('--window-size=1420,1080')
 chrome_options.add_argument('--headless')
 chrome_options.add_argument('--disable-gpu')
 driver = webdriver.Chrome(chrome_options=chrome_options)
+driver.implicitly_wait(10)
 
 
 #function returns list of counters urls
@@ -57,6 +57,8 @@ def get_values_from_counters(dict_of_counters):
         driver.get(dict_of_counters[count])
         elem = driver.find_element_by_id('corps') #selenium finds value of cyclist in each counter
         insert_to_db(connection_to_db,todays_the_day, count, elem.text)
+        print("date ",todays_the_day,'street', count,'cyclists', elem.text)
+
         print(count, ' ', elem.text)
     connection_to_db.close()
     driver.quit()

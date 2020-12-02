@@ -5,7 +5,6 @@ from mobilekrakowcrawler import get_values_from_counters, dict_of_streets_with_c
     get_street_names
 
 
-
 class PingPong(Resource):
 
     def get(self):

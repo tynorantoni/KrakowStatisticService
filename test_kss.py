@@ -83,7 +83,7 @@ class TestClass:
             cur = setUp.cursor()
 
             cur.execute('''DROP TABLE krakow_data_test_table;''')
-            # setUp.commit()
+            setUp.commit()
             assert cur.statusmessage == 'DROP TABLE'
         except psycopg2.DatabaseError as error:
             print(error)
