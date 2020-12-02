@@ -53,13 +53,15 @@ def dict_of_streets_with_counters_urls(list_of_counters, list_of_street_names):
 def get_values_from_counters(dict_of_counters):
     todays_the_day = datetime.date.today() - datetime.timedelta(days=1) #yesterday | day -1 !
     connection_to_db = connect_to_db()
-    for count in dict_of_counters:
-        driver.get(dict_of_counters[count])
-        elem = driver.find_element_by_id('corps') #selenium finds value of cyclist in each counter
-        insert_to_db(connection_to_db,todays_the_day, count, elem.text)
-        print("date ",todays_the_day,'street', count,'cyclists', elem.text)
 
-        print(count, ' ', elem.text)
+    for count in dict_of_counters:
+        if 'DAILY' in count:
+            driver.get(dict_of_counters[count])
+            elem = driver.find_element_by_id('corps') #selenium finds value of cyclist in each counter
+            insert_to_db(connection_to_db,todays_the_day, count[:-6].lower(), elem.text.replace(" ",""))
+            print("date ",todays_the_day,'street', count[:-6].lower(),'cyclists', elem.text.replace(" ",""))
+
+
     connection_to_db.close()
     driver.quit()
 
