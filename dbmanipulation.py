@@ -49,7 +49,7 @@ def insert_to_db(connection, date_of_counting, street_name, total_cyclists):
         (date_of_count, street_name, day_cnt) VALUES 
         ('{}','{}',{});'''.format(date_of_counting, street_name, total_cyclists)
                     )
-        # connection.commit()
+        connection.commit()
     except (Exception, psycopg2.DatabaseError) as error:
         print(error)
 
