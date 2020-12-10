@@ -55,7 +55,7 @@ def get_values_from_counters(dict_of_counters):
     connection_to_db = connect_to_db()
 
     for count in dict_of_counters:
-        if 'DAILY' in count:
+        if 'DAILY' in count: #get only daily values
             driver.get(dict_of_counters[count])
             elem = driver.find_element_by_id('corps') #selenium finds value of cyclist in each counter
             insert_to_db(connection_to_db,todays_the_day, count[:-6].lower(), elem.text.replace(" ",""))
