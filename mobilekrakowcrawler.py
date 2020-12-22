@@ -26,7 +26,7 @@ def get_counters_urls():
             regs = re.search('(http.+)"\sw', line)
 
             counters.append(regs.group(1))
-    # driver.quit()
+
     return counters
 
 
@@ -35,7 +35,7 @@ def get_street_names():
     driver.get("http://mobilnykrakow.pl/rowery/")
     driver.implicitly_wait(5)
     streets = driver.find_elements_by_class_name('title.uppercase.pt-3.pl-3.mb-0') #finds street names in counter titles
-    # driver.quit()
+
     return streets
 
 
@@ -59,9 +59,9 @@ def get_values_from_counters(dict_of_counters):
             driver.get(dict_of_counters[count])
             elem = driver.find_element_by_id('corps') #selenium finds value of cyclist in each counter
             insert_to_db(connection_to_db,todays_the_day, count[:-6].lower(), elem.text.replace(" ",""))
-            print("date ",todays_the_day,'street', count[:-6].lower(),'cyclists', elem.text.replace(" ",""))
+            # print("date ",todays_the_day,'street', count[:-6].lower(),'cyclists', elem.text.replace(" ",""))
+
 
 
     connection_to_db.close()
-    driver.quit()
 
